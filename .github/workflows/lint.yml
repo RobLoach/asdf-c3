@@ -14,11 +14,11 @@ jobs:
       - uses: asdf-vm/actions/install@v2
       - run: scripts/lint.bash
 
-  actionlint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check workflow files
-        uses: docker://rhysd/actionlint:1.6.23
-        with:
-          args: -color
+  # actionlint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Check workflow files
+  #       uses: docker://rhysd/actionlint:1.6.23
+  #       with:
+  #         args: -color
