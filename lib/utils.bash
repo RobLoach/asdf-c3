@@ -41,11 +41,12 @@ download_release() {
 	platform=""
 	case "$(uname -o)" in
 		"Darwin") platform="macos" ;;
-		"Linux") platform="linux" ;;
+		"Linux")  platform="linux" ;;
+		*)        platform="linux" ;;
 	esac
 
 	# TODO: Adapt the platform release URL convention for c3
-	url="$GH_REPO/releases/download/v${version}/c3-$platform.tar.gz"
+	url="$GH_REPO/releases/download/v${version}/c3-${platform}.tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
