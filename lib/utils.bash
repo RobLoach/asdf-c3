@@ -40,9 +40,9 @@ download_release() {
 
 	platform=""
 	case "$(uname -o)" in
-		"Darwin") platform="macos" ;;
-		"Linux")  platform="linux" ;;
-		*)        platform="linux" ;;
+	"Darwin") platform="macos" ;;
+	"Linux")  platform="linux" ;;
+	*)        platform="linux" ;;
 	esac
 
 	# TODO: Adapt the platform release URL convention for c3
