@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "Git Repository: https://github.com/c3lang/c3c"
+echo "Homepage: https://c3-lang.org"
+echo "Documentation: https://c3-lang.org/guide/"

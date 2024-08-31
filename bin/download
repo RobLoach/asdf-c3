@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
+
+# shellcheck source=./lib/utils.bash
+source "${plugin_dir}/lib/utils.bash"
+
+mkdir -p "$ASDF_DOWNLOAD_PATH"
+
+ext="zip"
+platform="linux"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	platform="macos"
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+	platform="windows"
+elif [[ "$OSTYPE" == "msys" ]]; then
+	platform="windows"
+elif [[ "$OSTYPE" == "win32" ]]; then
+	platform="windows"
+fi
+
+if [[ "$platform" = "linux" ]]; then
+	ext="tar.gz"
+fi
+
+release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.$ext"
+
+# Download tar.gz file to the download directory
+download_release "$ASDF_INSTALL_VERSION" "$release_file"
+
+#  Extract contents of file into the download directory
+if [[ $ext == "zip" ]]; then
+	unzip -o "$release_file" -d "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
+elif [[ $ext == "tar.gz" ]]; then
+	tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "Could not extract $release_file"
+fi
+
+# Remove the file since we don't need to keep it
+rm "$release_file"
