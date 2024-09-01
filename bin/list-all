@@ -10,7 +10,7 @@ sort_versions() {
 versions=$(
 	git ls-remote --tags https://github.com/c3lang/c3c.git |
 		grep 'v' |
-		awk '!/({})/ {print $2}' |
+		awk '!/(\{\})/ {print $2}' |
 		sed 's/refs\/tags\/v//' |
 		sed '/^refs/d' |
 		sort_versions |
