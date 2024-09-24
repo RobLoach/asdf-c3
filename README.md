@@ -17,6 +17,10 @@
 
 - `git`
 - `curl`
+- `awk`
+- `sed`
+- `mkdir`
+- `cp`
 
 # Install
 
