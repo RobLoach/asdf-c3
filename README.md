@@ -27,7 +27,7 @@
 Plugin:
 
 ```shell
-asdf plugin add c3 https://github.com/RobLoach/asdf-c3.git
+asdf plugin add c3
 ```
 
 c3c:
