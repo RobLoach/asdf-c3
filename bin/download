@@ -31,12 +31,15 @@ release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.$ext"
 # Download tar.gz file to the download directory
 download_release "$ASDF_INSTALL_VERSION" "$release_file"
 
-#  Extract contents of file into the download directory
+# Extract contents of file into the download directory
 if [[ $ext == "zip" ]]; then
 	unzip -o "$release_file" -d "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
 elif [[ $ext == "tar.gz" ]]; then
 	tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "Could not extract $release_file"
 fi
+
+# Make sure that the binary is executable
+chmod +x --quiet "$ASDF_DOWNLOAD_PATH/$TOOL_NAME/bin/c3c" "$ASDF_DOWNLOAD_PATH/$TOOL_NAME/c3c"
 
 # Remove the file since we don't need to keep it
 rm "$release_file"
