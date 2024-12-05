@@ -2,7 +2,7 @@
 
 # asdf-c3 [![Build](https://github.com/RobLoach/asdf-c3/actions/workflows/build.yml/badge.svg)](https://github.com/RobLoach/asdf-c3/actions/workflows/build.yml) [![Lint](https://github.com/RobLoach/asdf-c3/actions/workflows/lint.yml/badge.svg)](https://github.com/RobLoach/asdf-c3/actions/workflows/lint.yml)
 
-[c3](https://c3-lang.org/) plugin for the [asdf version manager](https://asdf-vm.com).
+[C3](https://c3-lang.org/) plugin for the [asdf version manager](https://asdf-vm.com).
 
 </div>
 
@@ -17,13 +17,17 @@
 
 - `git`
 - `curl`
+- `awk`
+- `sed`
+- `mkdir`
+- `cp`
 
 # Install
 
 Plugin:
 
 ```shell
-asdf plugin add c3 https://github.com/RobLoach/asdf-c3.git
+asdf plugin add c3
 ```
 
 c3c:
