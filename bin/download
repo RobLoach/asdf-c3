@@ -26,12 +26,10 @@ if [[ "$platform" = "linux" ]]; then
 	ext="tar.gz"
 fi
 
-echo "$ASDF_DOWNLOAD_PATH/bin/c3c" "$ASDF_DOWNLOAD_PATH/c3c"
-
 release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.$ext"
 
 # Download tar.gz file to the download directory
-download_release "$ASDF_INSTALL_VERSION" "$release_file"
+download_release "$ASDF_INSTALL_VERSION" "$release_file" "$platform" "$ext"
 
 # Extract contents of file into the download directory
 if [[ $ext == "zip" ]]; then
@@ -42,3 +40,8 @@ fi
 
 # Remove the file since we don't need to keep it
 rm "$release_file"
+
+# Clean up the variables
+unset ext
+unset platform
+unset release_file
