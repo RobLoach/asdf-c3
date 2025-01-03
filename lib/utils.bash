@@ -59,6 +59,11 @@ install_version() {
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
+		# append "macos" if using mac
+		if [[ "$OSTYPE" == "darwin"* ]]; then
+			install_path="$install_path/macos"
+		fi
+
 		# TODO: Assert c3c executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
