@@ -4,7 +4,7 @@ set -euo pipefail
 
 GH_REPO="https://github.com/c3lang/c3c"
 TOOL_NAME="c3"
-TOOL_TEST="c3c --version"
+TOOL_TEST="c3c"
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
@@ -34,25 +34,11 @@ list_all_versions() {
 }
 
 download_release() {
-	local version filename url
+	local version filename platform ext url
 	version="$1"
 	filename="$2"
-	ext="zip"
-
-	platform="linux"
-	if [[ "$OSTYPE" == "darwin"* ]]; then
-		platform="macos"
-	elif [[ "$OSTYPE" == "cygwin" ]]; then
-		platform="windows"
-	elif [[ "$OSTYPE" == "msys" ]]; then
-		platform="windows"
-	elif [[ "$OSTYPE" == "win32" ]]; then
-		platform="windows"
-	fi
-
-	if [[ "$platform" = "linux" ]]; then
-		ext="tar.gz"
-	fi
+	platform="$3"
+	ext="$4"
 
 	url="$GH_REPO/releases/download/v${version}/c3-${platform}.${ext}"
 
@@ -76,7 +62,6 @@ install_version() {
 		# TODO: Assert c3c executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
-		chmod +x "$install_path/$tool_cmd"
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"
