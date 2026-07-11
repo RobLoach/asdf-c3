@@ -2,12 +2,4 @@
 
 set -euo pipefail
 
-path="bin"
-
-# append "macos" if using mac
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	path="$path/macos"
-fi
-
-echo "$path"
-
+echo "bin"

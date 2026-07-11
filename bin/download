@@ -10,20 +10,21 @@ source "${plugin_dir}/lib/utils.bash"
 
 mkdir -p "$ASDF_DOWNLOAD_PATH"
 
-ext="zip"
+ext="tar.gz"
 platform="linux"
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	platform="macos"
-elif [[ "$OSTYPE" == "cygwin" ]]; then
+	ext="zip"
+elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
 	platform="windows"
-elif [[ "$OSTYPE" == "msys" ]]; then
-	platform="windows"
-elif [[ "$OSTYPE" == "win32" ]]; then
-	platform="windows"
-fi
-
-if [[ "$platform" = "linux" ]]; then
-	ext="tar.gz"
+	ext="zip"
+elif [[ "$OSTYPE" == "netbsd"* ]]; then
+	platform="netbsd"
+elif [[ "$OSTYPE" == "openbsd"* ]]; then
+	platform="openbsd"
+elif ldd --version 2>&1 | grep -qi musl; then
+	# musl-based Linux (e.g. Alpine) needs the musl build
+	platform="linux-musl"
 fi
 
 release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.$ext"
@@ -33,7 +34,16 @@ download_release "$ASDF_INSTALL_VERSION" "$release_file" "$platform" "$ext"
 
 # Extract contents of file into the download directory
 if [[ $ext == "zip" ]]; then
-	unzip -o "$release_file" -d "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
+	unzip -oq "$release_file" -d "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
+
+	# Ensure the archive is flattened to the top-directory.
+	for dir in "$ASDF_DOWNLOAD_PATH/c3" "$ASDF_DOWNLOAD_PATH/macos"; do
+		if [[ -d "$dir" ]]; then
+			mv "$dir"/* "$ASDF_DOWNLOAD_PATH"
+			rmdir "$dir"
+		fi
+	done
+	unset dir
 elif [[ $ext == "tar.gz" ]]; then
 	tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "Could not extract $release_file"
 fi

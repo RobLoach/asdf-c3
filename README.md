@@ -19,8 +19,8 @@
 - `curl`
 - `awk`
 - `sed`
-- `mkdir`
-- `cp`
+- `tar` (Linux/BSD)
+- `unzip` (macOS)
 
 # Install
 
@@ -34,13 +34,13 @@ c3c:
 
 ```shell
 # Show all installable versions
-asdf list-all c3
+asdf list all c3
 
-# Install specific version
+# Install the latest version
 asdf install c3 latest
 
 # Set a version globally (on your ~/.tool-versions file)
-asdf global c3 latest
+asdf set -u c3 latest
 
 # Now c3c commands are available
 c3c --version

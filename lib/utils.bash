@@ -26,7 +26,8 @@ sort_versions() {
 list_github_tags() {
 	git ls-remote --tags --refs "$GH_REPO" |
 		grep -o 'refs/tags/.*' | cut -d/ -f3- |
-		sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+		sed 's/^v//' |
+		grep -E '^[0-9]+\.[0-9]+\.[0-9]+' # ignore non-version tags like "latest" or "0.8.x-latest"
 }
 
 list_all_versions() {
@@ -59,14 +60,11 @@ install_version() {
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-		# append "macos" if using mac
-		if [[ "$OSTYPE" == "darwin"* ]]; then
-			install_path="$install_path/macos"
-		fi
-
-		# TODO: Assert c3c executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+		if [ -f "$install_path/$tool_cmd" ]; then
+			chmod +x "$install_path/$tool_cmd"
+		fi
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"
